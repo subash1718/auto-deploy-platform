@@ -12,28 +12,36 @@ public class GitCloneService {
 
         try {
 
-            String repoName = githubUrl.substring(githubUrl.lastIndexOf("/") + 1)
+            String repositoryName = githubUrl
+                    .substring(githubUrl.lastIndexOf("/") + 1)
                     .replace(".git", "");
 
-            File directory = new File("uploads/" + repoName);
+            File directory = new File("uploads/" + repositoryName);
 
-            if (!directory.exists()) {
-
-                Git.cloneRepository()
-                        .setURI(githubUrl)
-                        .setDirectory(directory)
-                        .call();
-
+            if (directory.exists()) {
+                deleteDirectory(directory);
             }
+
+            Git.cloneRepository()
+                    .setURI(githubUrl)
+                    .setDirectory(directory)
+                    .call();
 
             return directory.getAbsolutePath();
 
         } catch (Exception e) {
-
-            throw new RuntimeException("Failed to clone repository", e);
-
+            throw new RuntimeException(e);
         }
-
     }
 
+    private void deleteDirectory(File file) {
+
+        if (file.isDirectory()) {
+            for (File child : file.listFiles()) {
+                deleteDirectory(child);
+            }
+        }
+
+        file.delete();
+    }
 }

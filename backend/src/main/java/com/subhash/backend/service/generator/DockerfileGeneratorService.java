@@ -13,8 +13,7 @@ public class DockerfileGeneratorService {
 
         try {
 
-            Path dockerfile =
-                    Path.of(projectPath, "backend", "Dockerfile");
+            Path dockerfile = Path.of(projectPath, "Dockerfile");
 
             String content = """
                     FROM eclipse-temurin:21-jdk
