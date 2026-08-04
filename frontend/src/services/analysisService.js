@@ -16,6 +16,16 @@ export async function analyzeZipProject(formData) {
   return response.data;
 }
 
+export async function fetchDeployments() {
+  const response = await axios.get(`${API}/deployments`);
+  return response.data;
+}
+
+export async function fetchDeploymentById(id) {
+  const response = await axios.get(`${API}/deployments/${id}`);
+  return response.data;
+}
+
 export function getDownloadUrl(type, repository) {
   return `${API}/download/${type}?repository=${encodeURIComponent(repository)}`;
 }
